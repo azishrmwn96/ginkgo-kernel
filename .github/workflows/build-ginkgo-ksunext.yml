@@ -1,0 +1,59 @@
+name: Build FloppyKernel Ginkgo - KernelSU Next
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+
+    env:
+      WP: ${{ github.workspace }}
+      CLANG_TYPE: aosp
+      LOG_UPLOAD: 0
+      KBUILD_BUILD_USER: github-actions
+      KBUILD_BUILD_HOST: ginkgo-builder
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            bc bison build-essential ccache cpio flex git kmod \
+            libelf-dev libncurses-dev lz4 python3 rsync zip \
+            curl wget
+
+      - name: Prepare files expected by upstream script
+        run: |
+          touch "$GITHUB_WORKSPACE/../chat_test"
+          touch "$GITHUB_WORKSPACE/../bot_token"
+          chmod +x ckbuild.sh
+
+      - name: Build ginkgo with KernelSU Next
+        run: bash ckbuild.sh ginkgo k
+
+      - name: Upload AnyKernel3 flashable ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: FloppyKernel-v1.2-KSUNext-ginkgo-${{ github.run_number }}
+          path: ${{ github.workspace }}/Floppy_*-KSUNext-ginkgo-*.zip
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload build log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log-ginkgo-${{ github.run_number }}
+          path: ${{ github.workspace }}/log.txt
+          if-no-files-found: ignore
+          retention-days: 7
