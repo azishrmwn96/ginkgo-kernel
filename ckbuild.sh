@@ -190,7 +190,7 @@ TEST_CHANNEL=1
 #TEST_BUILD=0
 
 # Upload build log
-LOG_UPLOAD=1
+: "${LOG_UPLOAD:=0}"
 
 # Pick aosp, proton, rm69, lolz, slim, greenforce, zyc, rv, custom
 if [[ -z "$CLANG_TYPE" ]]; then
@@ -668,8 +668,10 @@ post_build() {
         echo -e "\nINFO: Kernel compiled succesfully! Zipping up..."
     else
         echo -e "\nERROR: Kernel files not found! Compilation failed?"
+    if [[ "$LOG_UPLOAD" == "1" ]]; then
         echo -e "\nINFO: Uploading log to bashupload.com\n"
-        curl -T log.txt bashupload.com
+        curl -T log.txt bashupload.com || true
+    fi
         exit 1
     fi
 
