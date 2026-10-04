@@ -9,3 +9,5 @@ out/
 *.orig
 modules.order
 Module.symvers
+
+.config
