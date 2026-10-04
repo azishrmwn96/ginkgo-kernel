@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: FloppyKernel-v1.2-KSUNext-ginkgo-${{ github.run_number }}
-          path: ${{ github.workspace }}/Floppy_*-KSUNext-ginkgo-*.zip
+          path: ${{ github.workspace }}/FlopCore_*-KSUNext-ginkgo-*.zip
           if-no-files-found: error
           retention-days: 14
 
