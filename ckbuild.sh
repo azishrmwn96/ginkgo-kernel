@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Build script for FloppyKernel (ginkgo).
+# Build script for FlopCore (ginkgo).
 # Based on build script for Quicksilver, by Ghostrider.
 # Copyright (C) 2020-2021 Adithya R. (original version)
 # Copyright (C) 2022-2025 Flopster101 (rewrite)
@@ -127,7 +127,7 @@ fi
 
 ## Customizable vars
 
-# FloppyKernel version
+# FlopCore version
 FK_VER="v1.2"
 
 # Toggles
@@ -228,7 +228,7 @@ else
     CK_TYPE="Vanilla"
     CK_TYPE_SHORT="V"
 fi
-ZIP_PATH="$WP/Floppy_$FK_VER-$CK_TYPE-$CODENAME-$DATE.zip"
+ZIP_PATH="$WP/FlopCore_$FK_VER-$CK_TYPE-$CODENAME-$DATE.zip"
 
 echo -e "\nINFO: Build info:
 - Device: $DEVICE ($CODENAME)
@@ -586,10 +586,10 @@ build() {
     fi
 
     if [[ "$IS_RELEASE" == "1" ]]; then
-        VERSION_STR="\"-Floppy-$FK_VER-$CK_TYPE_SHORT/release\""
+        VERSION_STR="\"-FlopCore-$FK_VER-$CK_TYPE_SHORT/release\""
         VERSION_NOAUTO=1
     else
-        VERSION_STR="\"-Floppy-$FK_VER-$CK_TYPE_SHORT/\""
+        VERSION_STR="\"-FlopCore-$FK_VER-$CK_TYPE_SHORT/\""
     fi
 
     scripts/config --file "$KDIR/out/.config" --set-val LOCALVERSION "$VERSION_STR"
@@ -723,7 +723,7 @@ upload() {
         curl -T log.txt bashupload.com
     fi
     # Delete any leftover zip files
-    # rm -f "$WP/FloppyKernel*zip"
+    # rm -f "$WP/FlopCore*zip"
 }
 
 clean() {
