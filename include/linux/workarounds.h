@@ -1,0 +1,37 @@
+/* SPDX-License-Identifier: GPL-2.0 */
+#ifndef _XIMI_WORKAROUNDS_H
+#define _XIMI_WORKAROUNDS_H
+
+bool is_legacy_timestamp(void);
+bool is_bpf_spoof_enabled(void);
+bool always_warm_reboot(void);
+bool msm_perf_disabled(void);
+bool is_using_legacy_ir_hal(void);
+bool is_modem_dead(void);
+
+#ifdef CONFIG_MACH_XIAOMI_F9S
+bool uses_kernel_dimming(void);
+#else
+static inline bool uses_kernel_dimming(void) { return false; }
+#endif
+
+// Devices
+static inline bool is_device_c3j(void)
+{
+#ifdef CONFIG_MACH_XIAOMI_C3J
+    return true;
+#else
+    return false;
+#endif
+}
+
+static inline bool is_device_f9s(void)
+{
+#ifdef CONFIG_MACH_XIAOMI_F9S
+    return true;
+#else
+    return false;
+#endif
+}
+
+#endif /* _XIMI_WORKAROUNDS_H */
